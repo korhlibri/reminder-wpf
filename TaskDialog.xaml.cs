@@ -12,20 +12,13 @@ using System.Windows.Shapes;
 namespace Reminder
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for TaskDialog.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class TaskDialog : Window
     {
-        public MainWindow()
+        public TaskDialog(string operation, UInt32 taskId = 0)
         {
             InitializeComponent();
-        }
-
-        private void AddTask(object sender, RoutedEventArgs e)
-        {
-            var newTaskDialog = new TaskDialog("ADD");
-
-            newTaskDialog.ShowDialog();
         }
     }
 }
