@@ -10,7 +10,6 @@ namespace Reminder
     /// </summary>
     public partial class App : Application
     {
-        public static int DateSelected = int.Parse(DateTime.Now.ToString("yyyyMd"));
         private static Dictionary<int, SortedDictionary<int, List<List<string>>>> Tasks = new();
 
         public static int AddTask(int date, int time, List<string> taskDetails) {
@@ -30,20 +29,32 @@ namespace Reminder
                         };
                     }
                 }
-                //else
-                //{
-                //    Tasks = new Dictionary<int, SortedDictionary<int, List<List<string>>>>()
-                //    {
-                //        {
-                //            date,
-                //            new SortedDictionary<int, List<List<string>>>()
-                //            {
-                //                { time, [taskDetails] }
-                //            }
-                //        }
-                //    };
-                //}
                 return 0;
+            }
+            catch
+            {
+                return 1;
+            }
+        }
+
+        public static SortedDictionary<int, List<List<string>>> GetDayTasks(int date)
+        {
+            return Tasks[date];
+        }
+
+        public static int ModifyTask(int date, int time, int taskId, List<string> task)
+        {
+            try
+            {
+                if (Tasks.ContainsKey(date))
+                {
+                    if (Tasks[date].ContainsKey(time))
+                    {
+                        Tasks[date][time][taskId] = task;
+                        return 0;
+                    }
+                }
+                return 2;
             }
             catch
             {
@@ -75,11 +86,6 @@ namespace Reminder
             {
                 return 1;
             }
-        }
-
-        public static SortedDictionary<int, List<List<string>>> getDayTasks(int date)
-        {
-            return Tasks[date];
         }
     }
 }
