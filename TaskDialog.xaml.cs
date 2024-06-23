@@ -16,9 +16,26 @@ namespace Reminder
     /// </summary>
     public partial class TaskDialog : Window
     {
+
         public TaskDialog(string operation, UInt32 taskId = 0)
         {
             InitializeComponent();
+        }
+
+        private void SubmitNewTask(object sender, RoutedEventArgs e)
+        {
+            string name = taskName.Text;
+            string desc = taskDesc.Text;
+            string date = taskDate.Text;
+            string time = taskTime.Text;
+            int parseddate = int.Parse(String.Join("", date.Split("-")));
+            int parsedtime = int.Parse(String.Join("", time.Split(":")));
+            List<string> data = [name, desc];
+
+            App.AddTask(parseddate, parsedtime, data);
+            MainWindow.UpdateDayTasks();
+
+            DialogResult = true;
         }
     }
 }
