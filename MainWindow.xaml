@@ -38,15 +38,15 @@
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             <Calendar x:Name="taskDatePicker" Grid.Column="0" Grid.Row="0" Grid.RowSpan="4" SelectedDatesChanged="DateChangeAction" />
-            <ListBox x:Name="taskList" Grid.Column="0" Grid.Row="4" Margin="5" Grid.ColumnSpan="2" Grid.RowSpan="6" ItemsSource="{Binding}"/>
+            <ListBox x:Name="taskList" Grid.Column="0" Grid.Row="4" Margin="5" Grid.ColumnSpan="2" Grid.RowSpan="6" ItemsSource="{Binding}" SelectionChanged="ListBoxSelectAction"/>
             <Button Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Margin="5" Content="Add a new task" Background="#FFA2D2A5" Click="AddTaskAction" />
             <Button Grid.Column="1" Grid.Row="2" Margin="5" Content="Modify selected task" Background="#FFDDE284" />
             <Button Grid.Column="1" Grid.Row="3" Margin="5" Content="Delete selected task" Background="#FFDE8080" />
             <TextBlock Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="2" Text="Selected Task Details" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="24"/>
             <TextBlock Grid.Column="2" Grid.Row="2" Grid.RowSpan="2" Margin="10,0,10,0" Text="Task:" VerticalAlignment="Center" FontSize="20"/>
-            <TextBlock Grid.Column="2" Grid.Row="4" Grid.RowSpan="2" Margin="10,0,10,0" Text="Time:" VerticalAlignment="Center" FontSize="20"/>
-            <TextBlock Grid.Column="3" Grid.Row="2" Grid.RowSpan="2" Margin="10,0,10,0" Text="None" VerticalAlignment="Center" FontSize="20"/>
-            <TextBlock Grid.Column="3" Grid.Row="4" Grid.RowSpan="2" Margin="10,0,10,0" Text="None" VerticalAlignment="Center" FontSize="20"/>
+            <TextBlock Grid.Column="2" Grid.Row="4" Grid.RowSpan="2" Margin="10,0,10,0" Text="Description:" VerticalAlignment="Center" FontSize="20"/>
+            <TextBlock x:Name="taskSelectedName" Grid.Column="3" Grid.Row="2" Grid.RowSpan="2" Margin="10,0,10,0" Text="None" VerticalAlignment="Center" FontSize="20"/>
+            <TextBlock x:Name="taskSelectedDesc" Grid.Column="3" Grid.Row="4" Grid.RowSpan="2" Margin="10,0,10,0" Text="None" VerticalAlignment="Center" FontSize="20"/>
             <Button Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="6" Grid.RowSpan="2" Margin="5" Content="Mark as Done" Background="#FFA2D2A5" FontWeight="Bold" FontSize="22"/>
         </Grid>
     </Grid>

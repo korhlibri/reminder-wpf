@@ -21,6 +21,7 @@ namespace Reminder
         private static int DateSelected = int.Parse(DateTime.Now.ToString("yyyyMMdd"));
         private static SortedDictionary<int, List<List<string>>> DayTasks = new();
         private static List<string> DisplayableTasks = new();
+        private static List<List<string>> TaskDetailBinding = new();
 
         public MainWindow()
         {
@@ -40,11 +41,13 @@ namespace Reminder
         public static void SetDisplayableTasks()
         {
             DisplayableTasks = [];
+            TaskDetailBinding = [];
             foreach (KeyValuePair<int, List<List<string>>> timeTasks in DayTasks)
             {
                 foreach (List<string> task in timeTasks.Value)
                 {
                     DisplayableTasks.Add($"{DateSelected / 10000}-{DateSelected / 10000 - DateSelected % 100}-{DateSelected % 100} {timeTasks.Key / 100}:{timeTasks.Key % 100}   {task[0]}");
+                    TaskDetailBinding.Add(task);
                 }
             }
         }
@@ -62,6 +65,22 @@ namespace Reminder
 
             UpdateDayTasks();
             taskList.ItemsSource = DisplayableTasks;
+            taskList.SelectedIndex = -1;
+        }
+
+        private void ListBoxSelectAction(object sender, SelectionChangedEventArgs e)
+        {
+            int index = taskList.SelectedIndex;
+            if (index != -1)
+            {
+                taskSelectedName.Text = TaskDetailBinding[index][0];
+                taskSelectedDesc.Text = TaskDetailBinding[index][1];
+            }
+            else
+            {
+                taskSelectedName.Text = "None";
+                taskSelectedDesc.Text = "None";
+            }
         }
     }
 }
