@@ -2,6 +2,9 @@
 using System.Data;
 using System.Windows;
 using System.Collections.Generic;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 
 namespace Reminder
 {
@@ -11,6 +14,12 @@ namespace Reminder
     public partial class App : Application
     {
         private static Dictionary<int, SortedDictionary<int, List<List<string>>>> Tasks = new();
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+
+            RemindTasks();
+        }
 
         public static int AddTask(int date, int time, List<string> taskDetails) {
             try
@@ -93,6 +102,27 @@ namespace Reminder
             catch
             {
                 return new SortedDictionary<int, List<List<string>>>();
+            }
+        }
+
+        private async void RemindTasks()
+        {
+            while (true)
+            {
+                int currentDate = int.Parse(DateTime.Now.ToString("yyyyMMdd"));
+                if (Tasks.ContainsKey(currentDate))
+                {
+                    int currentTime = int.Parse(DateTime.Now.ToString("HHmm"));
+                    if (Tasks[currentDate].Keys.Min() <= currentTime)
+                    {
+                        //new ToastContentBuilder()
+                        //    .AddText($"Task Reminder: {Tasks[currentDate][currentTime][0][0]}")
+                        //    .AddText($"{Tasks[currentDate][currentTime][0][1]}")
+                        //    .Show();
+                        RemoveTask(currentDate, currentTime, 0);
+                    }
+                }
+                await Task.Delay(5000);
             }
         }
     }
