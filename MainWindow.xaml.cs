@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -43,6 +44,7 @@ namespace Reminder
         {
             DisplayableTasks = [];
             TaskDetailBinding = [];
+            TaskTimeBinding = [];
             foreach (KeyValuePair<int, List<List<string>>> timeTasks in DayTasks)
             {
                 foreach (List<string> task in timeTasks.Value)
@@ -52,6 +54,23 @@ namespace Reminder
                     TaskTimeBinding.Add([DateSelected, timeTasks.Key]);
                 }
             }
+        }
+
+        private static int GetRealIndex(int index)
+        {
+            int time = TaskTimeBinding[index][1];
+            foreach (List<int> timeBinding in TaskTimeBinding)
+            {
+                if (timeBinding[1] != time)
+                {
+                    index -= 1;
+                }
+                else
+                {
+                    return index;
+                }
+            }
+            return -1;
         }
 
         private void AddTaskAction(object sender, RoutedEventArgs e)
@@ -69,12 +88,16 @@ namespace Reminder
             int index = taskList.SelectedIndex;
             if (index != -1)
             {
-                var newTaskDialog = new TaskDialog("MOD", taskId: index, date: TaskTimeBinding[index][0], time: TaskTimeBinding[index][1]);
+                int realindex = GetRealIndex(index);
+                if (realindex != -1)
+                {
+                    var newTaskDialog = new TaskDialog("MOD", taskId: realindex, date: TaskTimeBinding[index][0], time: TaskTimeBinding[index][1]);
 
-                newTaskDialog.ShowDialog();
+                    newTaskDialog.ShowDialog();
 
-                taskList.ItemsSource = DisplayableTasks;
-                taskList.SelectedIndex = -1;
+                    taskList.ItemsSource = DisplayableTasks;
+                    taskList.SelectedIndex = -1;
+                }
             }
         }
 
@@ -83,7 +106,15 @@ namespace Reminder
             int index = taskList.SelectedIndex;
             if (index != -1)
             {
-                
+                int realindex = GetRealIndex(index);
+                if (realindex != -1)
+                {
+                    App.RemoveTask(TaskTimeBinding[index][0], TaskTimeBinding[index][1], realindex);
+
+                    UpdateDayTasks();
+                    taskList.ItemsSource = DisplayableTasks;
+                    taskList.SelectedIndex = -1;
+                }
             }
         }
 

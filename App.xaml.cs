@@ -23,10 +23,7 @@ namespace Reminder
                     }
                     else
                     {
-                        Tasks[date] = new SortedDictionary<int, List<List<string>>>()
-                        {
-                            { time, [taskDetails] }
-                        };
+                        Tasks[date].Add(time, [taskDetails]);
                     }
                 }
                 else
@@ -38,18 +35,6 @@ namespace Reminder
             catch
             {
                 return 1;
-            }
-        }
-
-        public static SortedDictionary<int, List<List<string>>> GetDayTasks(int date)
-        {
-            try
-            {
-                return Tasks[date];
-            }
-            catch
-            {
-                return new SortedDictionary<int, List<List<string>>>();
             }
         }
 
@@ -96,6 +81,18 @@ namespace Reminder
             catch
             {
                 return 1;
+            }
+        }
+
+        public static SortedDictionary<int, List<List<string>>> GetDayTasks(int date)
+        {
+            try
+            {
+                return Tasks[date];
+            }
+            catch
+            {
+                return new SortedDictionary<int, List<List<string>>>();
             }
         }
     }
