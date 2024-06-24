@@ -22,6 +22,7 @@ namespace Reminder
         private static SortedDictionary<int, List<List<string>>> DayTasks = new();
         private static List<string> DisplayableTasks = new();
         private static List<List<string>> TaskDetailBinding = new();
+        private static List<List<int>> TaskTimeBinding = new();
 
         public MainWindow()
         {
@@ -48,6 +49,7 @@ namespace Reminder
                 {
                     DisplayableTasks.Add($"{DateSelected / 10000}-{DateSelected / 10000 - DateSelected % 100}-{DateSelected % 100} {timeTasks.Key / 100}:{timeTasks.Key % 100}   {task[0]}");
                     TaskDetailBinding.Add(task);
+                    TaskTimeBinding.Add([DateSelected, timeTasks.Key]);
                 }
             }
         }
@@ -57,6 +59,32 @@ namespace Reminder
             var newTaskDialog = new TaskDialog("ADD");
 
             newTaskDialog.ShowDialog();
+
+            taskList.ItemsSource = DisplayableTasks;
+            taskList.SelectedIndex = -1;
+        }
+
+        private void ModifyTaskAction(object sender, RoutedEventArgs e)
+        {
+            int index = taskList.SelectedIndex;
+            if (index != -1)
+            {
+                var newTaskDialog = new TaskDialog("MOD", taskId: index, date: TaskTimeBinding[index][0], time: TaskTimeBinding[index][1]);
+
+                newTaskDialog.ShowDialog();
+
+                taskList.ItemsSource = DisplayableTasks;
+                taskList.SelectedIndex = -1;
+            }
+        }
+
+        private void DeleteTaskAction(object sender, RoutedEventArgs e)
+        {
+            int index = taskList.SelectedIndex;
+            if (index != -1)
+            {
+                
+            }
         }
 
         private void DateChangeAction(object sender, SelectionChangedEventArgs e)
