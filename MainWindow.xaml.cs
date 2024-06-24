@@ -34,12 +34,21 @@ namespace Reminder
             taskList.ItemsSource = DisplayableTasks;
         }
 
+        /// <summary>
+        /// Starts the task updating process on the Main Window.
+        /// </summary>
         public static void UpdateDayTasks()
         {
             DayTasks = App.GetDayTasks(DateSelected);
             SetDisplayableTasks();
         }
 
+        /// <summary>
+        /// Sets the tasks to be displayed on the Main Window.
+        /// DisplayableTasks contains the text that will be displayed on the Window List.
+        /// TaskDetailBinding contains the name and description of the task in a list, allowing for quick access.
+        /// TaskTimeBinding contains the date and time of the task as integers.
+        /// </summary>
         public static void SetDisplayableTasks()
         {
             DisplayableTasks = [];
@@ -56,6 +65,14 @@ namespace Reminder
             }
         }
 
+        /// <summary>
+        /// Gets the real index of a task.
+        /// Real index is an index of the task in the dictionary rather than on the displayable list.
+        /// As the index is first gotten from the Window, it needs to be converted to a dictionary.
+        /// All items have their own list based on the time of the task.
+        /// This allows for multiple tasks to have the same time.
+        /// However, this also means that indexes differ between dictionaries and displayable list on the Window.
+        /// </summary>
         private static int GetRealIndex(int index)
         {
             int time = TaskTimeBinding[index][1];

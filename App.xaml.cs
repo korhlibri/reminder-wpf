@@ -21,6 +21,9 @@ namespace Reminder
             RemindTasks();
         }
 
+        /// <summary>
+        /// Adds a task with specified date, time, and details which contain name and description of the task.
+        /// </summary>
         public static int AddTask(int date, int time, List<string> taskDetails) {
             try
             {
@@ -47,6 +50,9 @@ namespace Reminder
             }
         }
 
+        /// <summary>
+        /// Modifies an already added task.
+        /// </summary>
         public static int ModifyTask(int date, int time, int taskId, List<string> task)
         {
             try
@@ -67,6 +73,9 @@ namespace Reminder
             }
         }
 
+        /// <summary>
+        /// Deletes a task (or "marks" it as done).
+        /// </summary>
         public static int RemoveTask(int date, int time, int taskId)
         {
             try
@@ -93,6 +102,9 @@ namespace Reminder
             }
         }
 
+        /// <summary>
+        /// Adds a task with specified date, time, and details which contain name and description of the task.
+        /// </summary>
         public static SortedDictionary<int, List<List<string>>> GetDayTasks(int date)
         {
             try
@@ -105,6 +117,11 @@ namespace Reminder
             }
         }
 
+        /// <summary>
+        /// Reminds the user of past tasks (minimum same time as current time).
+        /// Requires an implementation of a toaster or notification method which is not currently implemented.
+        /// The task is deleted after being notified.
+        /// </summary>
         private async void RemindTasks()
         {
             while (true)
